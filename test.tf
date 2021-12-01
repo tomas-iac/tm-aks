@@ -27,10 +27,10 @@ module "aks" {
 }
 
 // Example using remote module tag or branch
-module "aks" {
-  source = "github.com/tomas-iac/tm-aks//modules/tm-aks?ref=0.0.2-alpha1"
-  location = azurerm_resource_group.test.location
-  resourceGroupName = azurerm_resource_group.test.name
-  subnetId = azurerm_subnet.test.id
-  vmSize = "Standard_B2s"
-}
+# module "aks" {
+#   source = "github.com/tomas-iac/tm-aks//modules/tm-aks?ref=0.0.2"
+#   location = azurerm_resource_group.test.location
+#   resourceGroupName = azurerm_resource_group.test.name
+#   subnetId = azurerm_subnet.test.id
+#   vmSize = "Standard_B2s"
+# }
