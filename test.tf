@@ -16,3 +16,11 @@ resource "azurerm_subnet" "test" {
   virtual_network_name = azurerm_virtual_network.test.name
   address_prefixes     = ["10.0.0.0/20"]
 }
+
+module "aks" {
+  source = "github.com/tomas-iac/tm-aks//modules/tm-aks?ref=0.0.1-alpha1"
+  location = azurerm_resource_group.test.location
+  resourceGroupName = azurerm_resource_group.test.name
+  subnetId = azurerm_subnet.test.id
+  vmSize = "Standard_B2s"
+}
