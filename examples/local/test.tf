@@ -1,3 +1,4 @@
+
 resource "azurerm_resource_group" "test" {
   name     = "test-rg"
   location = "westeurope"
@@ -19,7 +20,7 @@ resource "azurerm_subnet" "test" {
 
 // Module testing (local reference)
 module "aks" {
-  source = "./modules/tm-aks"
+  source = "../../"
   location = azurerm_resource_group.test.location
   resourceGroupName = azurerm_resource_group.test.name
   subnetId = azurerm_subnet.test.id

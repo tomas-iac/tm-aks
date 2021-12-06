@@ -9,3 +9,7 @@ terraform plan
 terraform apply -auto-approve
 ```
 
+## Tests
+export GOPATH=$(pwd)
+cd ./src/tests
+dep init
