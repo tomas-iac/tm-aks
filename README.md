@@ -10,6 +10,7 @@ terraform apply -auto-approve
 ```
 
 ## Tests
-export GOPATH=$(pwd)
-cd ./src/tests
-dep init
+cd tests
+go mod init aks
+go get github.com/gruntwork-io/terratest/modules/terraform
+go test -v -timeout 60m
