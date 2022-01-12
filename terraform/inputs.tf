@@ -14,7 +14,7 @@ variable "location" {
 }
 
 variable "vmSize" {
-  type = string
+  type    = string
   default = "Standard_B2s"
 }
 
@@ -31,7 +31,17 @@ variable "identityObjectId" {
 }
 
 variable "outboundType" {
-  type = string
+  type    = string
   default = "loadBalancer"
+}
+
+variable "privateDnsZoneId" {
+  type    = string
+  default = null
+}
+
+variable "privateCluster" {
+  type    = bool
+  default = false
 }
   

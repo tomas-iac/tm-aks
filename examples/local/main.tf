@@ -31,6 +31,19 @@ resource "azurerm_role_assignment" "test" {
   principal_id         = azurerm_user_assigned_identity.test.principal_id
 }
 
+// DNS zone
+resource "azurerm_private_dns_zone" "privateendpoints" {
+  name                = "privatelink.westeurope.azmk8s.io"
+  resource_group_name = azurerm_resource_group.test.name
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "test" {
+  name                  = "test"
+  resource_group_name   = azurerm_resource_group.test.name
+  private_dns_zone_name = azurerm_private_dns_zone.privateendpoints.name
+  virtual_network_id    = azurerm_virtual_network.test.id
+}
+
 // Module testing (local reference)
 module "aks" {
   source            = "../../terraform"
@@ -43,6 +56,8 @@ module "aks" {
   identityClientId  = azurerm_user_assigned_identity.test.client_id
   identityObjectId  = azurerm_user_assigned_identity.test.principal_id
   outboundType      = "loadBalancer"
+  privateCluster    = true
+  privateDnsZoneId  = azurerm_private_dns_zone.privateendpoints.id
   depends_on        = [azurerm_role_assignment.test]
 }
 
