@@ -4,6 +4,7 @@ Terraform module - AKS
 ## Module testing
 
 ```bash
+cd examples/local
 terraform validate
 terraform plan
 terraform apply -auto-approve
