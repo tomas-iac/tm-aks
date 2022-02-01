@@ -6,7 +6,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   default_node_pool {
     name           = "default"
-    node_count     = 2
+    node_count     = var.nodeCount
     vm_size        = var.vmSize
     vnet_subnet_id = var.subnetId
   }
@@ -33,4 +33,72 @@ resource "azurerm_kubernetes_cluster" "aks" {
     object_id                 = var.identityObjectId
   }
 
+  addon_profile {
+
+    dynamic "oms_agent" {
+      for_each = (var.enableMonitoring ? [1] : [])
+      content {
+        enabled                    = true
+        log_analytics_workspace_id = var.logAnalyticsWorkspaceId
+      }
+    }
+
+    azure_policy {
+      enabled = true
+    }
+
+    azure_keyvault_secrets_provider {
+      enabled                  = true
+      secret_rotation_enabled  = false
+      secret_rotation_interval = "2m"
+    }
+
+  }
+
+  role_based_access_control {
+    enabled = true
+    azure_active_directory {
+      azure_rbac_enabled = true
+      managed            = true
+    }
+  }
+}
+
+// API server logging
+resource "azurerm_monitor_diagnostic_setting" "aks" {
+  count                      = var.enableAudit ? 1 : 0
+  name                       = "akslogs"
+  target_resource_id         = azurerm_kubernetes_cluster.aks.id
+  log_analytics_workspace_id = var.logAnalyticsWorkspaceId
+
+  log {
+    category = "kube-audit"
+    enabled  = true
+
+    retention_policy {
+      enabled = false
+    }
+  }
+
+  log {
+    category = "kube-audit-admin"
+    enabled  = true
+
+    retention_policy {
+      enabled = false
+    }
+  }
+
+  metric {
+    category = "AllMetrics"
+    enabled  = false
+
+    retention_policy {
+      enabled = false
+    }
+  }
+
+  lifecycle {
+    ignore_changes = [log, metric]
+  }
 }

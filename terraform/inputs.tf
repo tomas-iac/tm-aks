@@ -19,6 +19,11 @@ variable "vmSize" {
   default = "Standard_B2s"
 }
 
+variable "nodeCount" {
+  type    = string
+  default = 3
+}
+
 variable "identityId" {
   type = string
 }
@@ -46,3 +51,17 @@ variable "privateCluster" {
   default = false
 }
   
+variable "logAnalyticsWorkspaceId" {
+  type    = string
+  default = null
+}
+
+variable "enableMonitoring" {
+  type    = bool
+  default = false
+}
+
+variable "enableAudit" {
+  type    = bool
+  default = false
+}
