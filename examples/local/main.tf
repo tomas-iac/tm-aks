@@ -1,6 +1,6 @@
 
 resource "azurerm_resource_group" "test" {
-  name     = "test-rg"
+  name     = "unit-test-aks-rg"
   location = "westeurope"
 }
 
