@@ -1,0 +1,33 @@
+name: Terratest
+
+on:
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Setup Go environment
+        uses: actions/setup-go@v2.2.0
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        
+      - name: Unit testing of module with Terratest
+        run: |
+          cd tests
+          go mod init aks
+          go get github.com/gruntwork-io/terratest/modules/terraform
+          go test -timeout 60m
