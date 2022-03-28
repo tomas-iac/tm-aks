@@ -1,3 +1,6 @@
 .terraform*
 *.tfstate*
 pkg
+
+tests/go.mod
+tests/go.sum

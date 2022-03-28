@@ -1,7 +1,7 @@
 
 resource "azurerm_resource_group" "test" {
   name     = "unit-test-aks-rg"
-  location = "westeurope"
+  location = "northeurope"
 }
 
 resource "azurerm_virtual_network" "test" {
