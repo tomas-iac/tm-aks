@@ -34,7 +34,7 @@ resource "azurerm_role_assignment" "test" {
 
 // DNS zone
 resource "azurerm_private_dns_zone" "privateendpoints" {
-  name                = "privatelink.westeurope.azmk8s.io"
+  name                = "privatelink.${azurerm_resource_group.test.location}.azmk8s.io"
   resource_group_name = azurerm_resource_group.test.name
 }
 

@@ -23,8 +23,10 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 
   identity {
-    type                      = "UserAssigned"
-    user_assigned_identity_id = var.identityId
+    type = "UserAssigned"
+    identity_ids = [
+      var.identityId
+    ]
   }
 
   kubelet_identity {
@@ -33,35 +35,27 @@ resource "azurerm_kubernetes_cluster" "aks" {
     object_id                 = var.identityObjectId
   }
 
-  addon_profile {
+  azure_policy_enabled = true
 
-    dynamic "oms_agent" {
-      for_each = (var.enableMonitoring ? [1] : [])
-      content {
-        enabled                    = true
-        log_analytics_workspace_id = var.logAnalyticsWorkspaceId
-      }
-    }
-
-    azure_policy {
-      enabled = true
-    }
-
-    azure_keyvault_secrets_provider {
-      enabled                  = true
-      secret_rotation_enabled  = false
-      secret_rotation_interval = "2m"
-    }
-
+  key_vault_secrets_provider {
+    secret_rotation_enabled  = false
+    secret_rotation_interval = "2m"
   }
 
-  role_based_access_control {
-    enabled = true
-    azure_active_directory {
-      azure_rbac_enabled = true
-      managed            = true
+  dynamic "oms_agent" {
+    for_each = (var.enableMonitoring ? [1] : [])
+    content {
+      log_analytics_workspace_id = var.logAnalyticsWorkspaceId
     }
   }
+
+  role_based_access_control_enabled = true
+
+  azure_active_directory_role_based_access_control {
+    azure_rbac_enabled = true
+    managed            = true
+  }
+
 }
 
 // API server logging
