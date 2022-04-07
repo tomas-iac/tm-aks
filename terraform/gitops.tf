@@ -62,4 +62,8 @@ resource "azurerm_resource_group_template_deployment" "flux" {
 }
 TEMPLATE
 
+    depends_on = [
+      azurerm_kubernetes_cluster.aks
+    ]
+
 }

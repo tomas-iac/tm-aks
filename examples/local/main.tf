@@ -61,7 +61,7 @@ module "aks" {
   location                = azurerm_resource_group.test.location
   resourceGroupName       = azurerm_resource_group.test.name
   subnetId                = azurerm_subnet.test.id
-  vmSize                  = "Standard_B2s"
+  vmSize                  = "Standard_B4ms"
   nodeCount               = 1
   identityId              = azurerm_user_assigned_identity.test.id
   identityClientId        = azurerm_user_assigned_identity.test.client_id

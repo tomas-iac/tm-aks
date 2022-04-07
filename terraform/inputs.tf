@@ -16,7 +16,7 @@ variable "location" {
 
 variable "vmSize" {
   type    = string
-  default = "Standard_B2s"
+  default = "Standard_B4ms"
 }
 
 variable "nodeCount" {
