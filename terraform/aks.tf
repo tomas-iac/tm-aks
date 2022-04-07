@@ -3,13 +3,13 @@ resource "azurerm_kubernetes_cluster" "aks" {
   location            = var.location
   resource_group_name = var.resourceGroupName
   dns_prefix          = "aks-${var.name}"
-  max_pods            = 70
 
   default_node_pool {
     name           = "default"
     node_count     = var.nodeCount
     vm_size        = var.vmSize
     vnet_subnet_id = var.subnetId
+    max_pods       = 70
   }
 
   private_cluster_enabled = var.privateCluster
