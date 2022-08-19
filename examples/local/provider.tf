@@ -11,6 +11,10 @@ provider "azurerm" {
   features {
     resource_group {
       prevent_deletion_if_contains_resources = false
+
+    }
+    template_deployment {
+      delete_nested_items_during_deletion = false
     }
   }
 }
